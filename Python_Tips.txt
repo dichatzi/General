@@ -2,3 +2,10 @@
 import sys
 sys.path.append("C://Root//Development//dcutils//")
 import dcutils as dc
+
+
+# Load .env file
+import os
+from dotenv import load_dotenv
+load_dotenv()
+token = os.getenv("ENTSOE_API_TOKEN")
