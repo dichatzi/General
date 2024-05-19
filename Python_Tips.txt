@@ -1,11 +1,18 @@
-# Import the dcutils library
+"""
+Import the dcutils library
+"""
 import sys
 sys.path.append("C://Root//Development//dcutils//")
 import dcutils as dc
 
+(you can also add the dcutils directory in the VS code settings.json file - cmd+shift+P and search for Open User Settings JSON - and add the line "python.analysis.extraPaths": ["/Users/dichatzi/Desktop/Root/Repos/dcutils/"])
+-------------------------------------------------------------------------------------------------------------------------------
 
-# Load .env file
+"""
+Load .env file
+"""
 import os
 from dotenv import load_dotenv
 load_dotenv()
 token = os.getenv("ENTSOE_API_TOKEN")
+-------------------------------------------------------------------------------------------------------------------------------
