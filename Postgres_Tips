@@ -45,3 +45,19 @@ host    all             all             0.0.0.0/0          md5
 12. Restart PostegreSQL
 sudo systemctl restart postgresql
 
+
+
+Add Password in User "postgres"
+-----------------------------------------------------------------------
+1. Switch to the PostgreSQL User:
+sudo -i -u postgres
+
+2. Access the PostgreSQL Prompt:
+psql
+
+3. Set the Password for the postgres User:
+\password postgres
+You will be prompted to enter a new password and then confirm it.
+
+4. Exit the PostgreSQL Prompt:
+\q
