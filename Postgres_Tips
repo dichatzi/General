@@ -1,0 +1,47 @@
+
+Install Database
+----------------------------------------------------------------------
+1. Install postgres database:
+sudo apt install postgresql postgresql-contrib
+
+2. Start and Enable PostgreSQL:
+Ensure that PostgreSQL is started and enabled to start on boot.
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+
+3. Switch to the PostgreSQL User:
+sudo -i -u postgres
+
+4. Access the PostgreSQL Prompt:
+psql
+
+5. Create a New Database User:
+CREATE USER username WITH PASSWORD 'password';
+
+6. Create a New Database (MAY NOT BE FOLLOWED):
+CREATE DATABASE mydatabase;
+
+7. Grant All Privileges on the Database to the User (MAY NOT BE FOLLOWED):
+GRANT ALL PRIVILEGES ON DATABASE mydatabase TO username;
+
+8. Exit the PostgreSQL Prompt:
+\q
+
+9. Adjust Firewall Settings (if necessary - MAY NOT BE FOLLOWED):
+sudo ufw allow 5432/tcp
+
+10. Configure PostgreSQL to Accept Remote Connections (if necessary):
+sudo nvim /etc/postgresql/16/main/postgresql.conf
+
+Find the line that says #listen_addresses = 'localhost' and change it to:
+listen_addresses = '*'
+
+11. Allow Access to the Database
+sudo nvim /etc/postgresql/16/main/pg_hba.conf
+
+Add in the last line:
+host    all             all             0.0.0.0/0          md5
+
+12. Restart PostegreSQL
+sudo systemctl restart postgresql
+
