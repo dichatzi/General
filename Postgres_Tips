@@ -61,3 +61,79 @@ You will be prompted to enter a new password and then confirm it.
 
 4. Exit the PostgreSQL Prompt:
 \q
+
+
+
+Install timescale
+-----------------------------------------------------------------------
+1. Install the latest PostgreSQL packages
+  sudo apt install gnupg postgresql-common apt-transport-https lsb-release wget
+
+2. Run the PostgreSQL package setup script
+  sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+
+3. Add the TimescaleDB package
+  echo "deb https://packagecloud.io/timescale/timescaledb/debian/ $(lsb_release -c -s) main" | sudo tee /etc/apt/sources.list.d/timescaledb.list
+
+4. Install the TimescaleDB GPG key
+  wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/timescaledb.gpg
+
+  For Ubuntu 21.10 and earlier use the following command:
+  wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | sudo apt-key add -
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+The above may not work, so try the following code:
+-----------------------------------------------------------------------------------------------
+sudo apt update
+sudo apt install -y gnupg2 wget
+wget -qO- https://packagecloud.io/timescale/timescaledb/gpgkey | sudo tee /usr/share/keyrings/timescale-keyring.asc
+echo "deb [signed-by=/usr/share/keyrings/timescale-keyring.asc] https://packagecloud.io/timescale/timescaledb/ubuntu/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/timescaledb.list
+sudo apt update
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+5. Update your local repository list
+  sudo apt update
+
+6. Install TimescaleDB
+  sudo apt install timescaledb-2-postgresql-16 postgresql-client
+
+To install a specific TimescaleDB release, set the version. For example:
+  sudo apt-get install timescaledb-2-postgresql-14='2.6.0*' timescaledb-2-loader-postgresql-14='2.6.0*'
+
+  Older versions of TimescaleDB may not support all the OS versions listed on this page.
+
+7. Tune your PostgreSQL instance for TimescaleDB
+  sudo timescaledb-tune
+
+  This script is included with the timescaledb-tools package when you install TimescaleDB. For more information, see configuration.
+
+8. Restart PostgreSQL
+  sudo systemctl restart postgresql
+
+9. Login to PostgreSQL as postgres
+  sudo -u postgres psql
+  You are in the psql shell.
+
+10. Set the password for postgres
+  \password postgres
+
+  When you have set the password, type \q to exit psql.
+
+
+
+Set Up timescale
+-----------------------------------------------------------------------
+1. Connect to your PostgreSQL instance
+  psql -U postgres -h localhost
+
+2. Create a database
+  CREATE DATABASE tsdb;
+
+3. Connect to the database
+  \c tsdb
+
+4. Add TimescaleDB to the database
+  CREATE EXTENSION IF NOT EXISTS timescaledb;
+
+5. Check that TimescaleDB is installed
+  \dx
